@@ -126,33 +126,7 @@ and the Python/PyTorch inference server processing RF requests during the simula
 
 This provides an end-to-end demonstration of the vehicle-control and RF-inference pipeline operating together.
 
-## Repository Structure
-.
-├── matlab/
-│   ├── Simulink vehicle models
-│   ├── Urban driving scenario
-│   ├── Ego-path generation
-│   ├── Lead-vehicle tracking
-│   ├── RF scene conditioning
-│   ├── ZeroMQ interface
-│   └── Evaluation scripts
-│
-├── python/
-│   ├── RF dataset generation
-│   ├── Preprocessing
-│   ├── PyTorch training
-│   ├── RF inference service
-│   └── Model evaluation
-│
-├── results/
-│   └── Final simulation and evaluation figures
-│
-├── docs/
-│   └── Final technical report
-│
-├── LICENSE
-└── README.md
-Running the Physical Simulink Demo
+
 
 ## Repository Structure
 
