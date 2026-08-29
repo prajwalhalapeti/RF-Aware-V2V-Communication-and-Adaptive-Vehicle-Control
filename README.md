@@ -154,16 +154,55 @@ This provides an end-to-end demonstration of the vehicle-control and RF-inferenc
 └── README.md
 Running the Physical Simulink Demo
 
-## Requirements:
+## Repository Structure
 
-MATLAB
-Simulink
-Automated Driving Toolbox
+```text
+RF-Aware-V2V-Communication-and-Adaptive-Vehicle-Control/
+├── matlab/
+│   ├── Simulink vehicle models
+│   ├── Urban driving scenario
+│   ├── Ego-path generation
+│   ├── Lead-vehicle tracking
+│   ├── RF scene conditioning
+│   ├── ZeroMQ interface
+│   └── Evaluation scripts
+│
+├── python/
+│   ├── RF dataset generation
+│   ├── Preprocessing
+│   ├── PyTorch training
+│   ├── RF inference service
+│   └── Model evaluation
+│
+├── results/
+│   └── Final simulation and evaluation figures
+│
+├── docs/
+│   └── Final technical report
+│
+├── LICENSE
+└── README.md
+```
 
-Open MATLAB and set the Current Folder to matlab/.
+---
 
-Run:
+## Running the Physical Simulink Demo
 
+### Requirements
+
+- MATLAB
+- Simulink
+- Automated Driving Toolbox
+
+Open MATLAB and set the **Current Folder** to:
+
+```text
+matlab/
+```
+
+Then run:
+
+```matlab
 prepare_ego_path
 
 ADAPTIVE_ENABLE = 0;
@@ -174,9 +213,9 @@ RUN_SEED = 1;
 SPEED_LIMIT_MPS = 10;
 
 open_system('v2v_urban_scenario_PHYSICAL_BASELINE')
+```
 
-Then run the Simulink model.
-
+Then press **Run** in Simulink.
 ## Full RF Software-in-the-Loop System
 
 The complete RF-aware configuration additionally requires:
