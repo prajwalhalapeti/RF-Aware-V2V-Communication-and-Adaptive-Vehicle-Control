@@ -55,7 +55,7 @@ The RF experiment is activated using ego route position rather than an arbitrary
 
 RF_ZONE_START_S = 959.172 m
 RF_ZONE_END_S   = 1073.437 m
-RF Intelligence Pipeline
+## RF Intelligence Pipeline
 
 The Python/PyTorch inference service processes raw I/Q frames and returns RF estimates to Simulink through ZeroMQ.
 
@@ -214,7 +214,7 @@ RF-device identification is not sufficiently reliable for hard transmitter authe
 Delay-spread regression is not used for safety-critical vehicle control.
 RF propagation is scene-conditioned using RF data rather than full geometry-based electromagnetic ray tracing.
 NLOS performance requires further validation on a completely independent or real-world RF dataset.
-Technical Report
+## Technical Report
 
 The complete project report is available at:
 
@@ -223,6 +223,6 @@ docs/V2V_RF_Adaptive_Control_FINAL.pdf
 ## Technologies
 
 MATLAB · Simulink · Automated Driving Toolbox · Python · PyTorch · ZeroMQ · HDF5 · Deep Learning · V2V · Software-in-the-Loop
-License
+## License
 
 This project is released under the MIT License.
