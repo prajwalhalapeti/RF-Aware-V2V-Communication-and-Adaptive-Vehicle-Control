@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# RF datasets / model checkpoints
+*.h5
+*.hdf5
+*.pt
+*.pth
+*.ckpt
+
+# MATLAB generated files
+*.slxc
+slprj/
+*.asv
+*.autosave
+
+# macOS
+.DS_Store
+
+# Logs / recordings / temporary files
+*.log
+*.mov
+*.mp4
+*.tmp
