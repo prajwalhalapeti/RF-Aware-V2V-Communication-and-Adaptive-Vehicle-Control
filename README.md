@@ -39,9 +39,9 @@ RF Quality + NLOS Probability + SNR
 RF-Aware Longitudinal Controller
         ↓
 Vehicle Speed and Gap Response
-```text
+```
 
-#Final Simulink Architecture
+## Final Simulink Architecture
 
 The final Simulink model combines the physical driving scenario, ego-path tracking, dynamic lead-vehicle selection, RF scene conditioning, live RF inference and adaptive longitudinal control.
 
