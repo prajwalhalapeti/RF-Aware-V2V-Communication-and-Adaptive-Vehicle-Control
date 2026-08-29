@@ -1,80 +1,162 @@
-A software-in-the-loop V2V framework integrating MATLAB/Simulink urban vehicle dynamics with a Python/PyTorch RF inference service.
+# RF-Aware V2V Communication and Adaptive Vehicle Control
 
-The system uses scene-conditioned RF events and deep-learning inference on raw I/Q data to estimate NLOS probability and wireless-link quality. These RF metrics are then supplied to an adaptive longitudinal controller while physical gap, relative speed and TTC-based safety remain the dominant control layer.
-The complete framework combines:
+A software-in-the-loop V2V framework integrating MATLAB/Simulink vehicle dynamics with a Python/PyTorch RF inference service for scene-conditioned V2V communication and adaptive longitudinal control.
 
-- MATLAB/Simulink urban vehicle and traffic simulation
+The system estimates wireless-link quality and Non-Line-of-Sight (NLOS) probability from raw I/Q signals and supplies these RF metrics to the vehicle controller. Physical gap, relative speed and TTC-based safety remain the primary control layer.
+
+---
+
+## System Overview
+
+The framework integrates:
+
+- Urban driving simulation in MATLAB/Simulink
 - Dynamic lead-vehicle tracking
-- Scene-conditioned V2V RF event activation
-- ZeroMQ-based MATLAB-Python communication
-- PyTorch multi-task RF inference from I/Q signals
-- NLOS probability and RF-quality estimation
-- RF-adaptive longitudinal vehicle control
-- Clean-versus-NLOS software-in-the-loop validation
+- Scene-conditioned V2V RF events
+- MATLAB-Python communication through ZeroMQ
+- PyTorch inference on raw I/Q signals
+- NLOS and RF-quality estimation
+- RF-aware longitudinal control
+- CLEAN-versus-NLOS closed-loop evaluation
 
+### End-to-End Flow
+
+```text
 Urban Driving Scenario
         ↓
-Ego Path and Lead-Vehicle Tracking
+Ego Path + Lead-Vehicle Tracking
         ↓
 RF Scene Context
         ↓
-MATLAB → ZeroMQ → Python/PyTorch
+MATLAB / Simulink
         ↓
-I/Q RF Inference
+ZeroMQ
+        ↓
+Python / PyTorch RF Inference
         ↓
 RF Quality + NLOS Probability + SNR
         ↓
 RF-Aware Longitudinal Controller
         ↓
-Vehicle Speed / Gap Response
-
+Vehicle Speed and Gap Response
 Final Simulink Architecture
 
-The final Simulink model integrates the urban scenario, ego-path tracking, dynamic lead-vehicle selection, RF scene conditioning, live MATLAB-Python inference and adaptive longitudinal control.
+The final Simulink model combines the physical driving scenario, ego-path tracking, dynamic lead-vehicle selection, RF scene conditioning, live RF inference and adaptive longitudinal control.
 
-RF Evaluation Zone
+Urban Driving Scenario
+
+The ego vehicle follows a predefined urban route containing intersections, highway sections, roundabouts and multiple traffic actors.
+
+A building-heavy section of the route is used as the RF evaluation region.
 
 The RF experiment is activated using ego route position rather than an arbitrary simulation time.
+
 RF_ZONE_START_S = 959.172 m
 RF_ZONE_END_S   = 1073.437 m
+RF Intelligence Pipeline
 
-Final Results
-Deep-Learning RF Performance
+The Python/PyTorch inference service processes raw I/Q frames and returns RF estimates to Simulink through ZeroMQ.
+
+Important outputs include:
+
+NLOS probability
+RF quality
+Estimated SNR
+Packet-error risk
+Device confidence
+Delay-spread estimate
+Inference latency
+SIL sequence and link status
+
+RF information acts as a supervisory input. Physical gap and TTC-based safety remain active independently of the RF subsystem.
+
+Deep-Learning Performance
 Metric	Result
 NLOS F1-score	96.69%
-Balanced accuracy	96.81%
-ROC-AUC	99.99%
+NLOS balanced accuracy	96.81%
+NLOS ROC-AUC	99.99%
 SNR MAE	1.83 dB
 Median inference latency	1.85 ms
 p95 inference latency	2.26 ms
-Clean vs NLOS Closed-Loop Evaluation
 
-Metric	                       CLEAN	NLOS
+The reported values correspond to evaluation on the finite RF dataset used in the project.
+
+CLEAN vs NLOS Closed-Loop Evaluation
+
+CLEAN and NLOS experiments were compared using ego route position (path_s) so that both runs are evaluated at the same physical locations.
+
+Metric	CLEAN	NLOS
 MATLAB-Python link success	100%	100%
-Mean RF quality	                0.7959	0.5343
-Mean NLOS probability.    	0.1330	0.3093
-Minimum ego speed.       	0 m/s	0 m/s
-Peak deceleration      	-7.5 m/s²	-7.5 m/s²
+Mean RF quality in RF zone	0.7959	0.5343
+Mean NLOS probability in RF zone	0.1330	0.3093
+Minimum ego speed	0 m/s	0 m/s
+Peak deceleration	-7.5 m/s²	-7.5 m/s²
 
-The NLOS condition produced a clear RF-domain change while the physical vehicle controller remained bounded and stable.
+The NLOS condition reduced mean RF quality by approximately 0.2615 and increased mean NLOS probability by approximately 0.1763.
 
-Demo Videos
+The communication-layer change is clearly detected while the physical safety controller keeps the longitudinal response bounded.
 
-The v1.0 GitHub Release contains:
-Full urban driving and adaptive longitudinal-braking simulation
-Live Python/PyTorch RF inference activity through ZeroMQ
+RF-Only Validation
 
-See:
-Releases → V2V Final Demonstration
+Before enabling RF-aware vehicle adaptation, the RF pipeline was validated independently.
+
+MATLAB-Python SIL link success    = 100%
+
+Mean RF quality outside RF zone  = 0.7917
+Mean RF quality inside RF zone   = 0.1155
+
+Mean NLOS outside RF zone        = 0.1339
+Mean NLOS inside RF zone         = 0.5941
+
+This confirms that the scene-conditioned RF region produces the intended communication degradation before RF information influences vehicle control.
+
+Demo Video
+
+The v1.0 – V2V Final Demonstration GitHub Release contains the integrated final simulation video.
+
+The video shows:
+
+the urban driving scenario running in MATLAB/Simulink,
+ego-vehicle longitudinal control and adaptive braking,
+the RF evaluation region,
+live MATLAB-Python communication through ZeroMQ,
+and the Python/PyTorch inference server processing RF requests during the simulation.
+
+This provides an end-to-end demonstration of the vehicle-control and RF-inference pipeline operating together.
+
+Repository Structure
 .
 ├── matlab/
+│   ├── Simulink vehicle models
+│   ├── Urban driving scenario
+│   ├── Ego-path generation
+│   ├── Lead-vehicle tracking
+│   ├── RF scene conditioning
+│   ├── ZeroMQ interface
+│   └── Evaluation scripts
+│
 ├── python/
+│   ├── RF dataset generation
+│   ├── Preprocessing
+│   ├── PyTorch training
+│   ├── RF inference service
+│   └── Model evaluation
+│
 ├── results/
+│   └── Final simulation and evaluation figures
+│
 ├── docs/
+│   └── Final technical report
+│
 ├── LICENSE
 └── README.md
-
 Running the Physical Simulink Demo
+
+Requirements:
+
+MATLAB
+Simulink
+Automated Driving Toolbox
 
 Open MATLAB and set the Current Folder to matlab/.
 
@@ -93,37 +175,39 @@ open_system('v2v_urban_scenario_PHYSICAL_BASELINE')
 
 Then run the Simulink model.
 
-Requirements:
-
-MATLAB
-Simulink
-Automated Driving Toolbox
 Full RF Software-in-the-Loop System
 
-The complete RF-aware model uses:
+The complete RF-aware configuration additionally requires:
 
-MATLAB/Simulink
 Python
 PyTorch
 ZeroMQ
 HDF5 RF data
 
-MATLAB communicates with the Python inference service through:
+MATLAB communicates with the Python inference server through:
+
 tcp://127.0.0.1:5557
 
-Large RF datasets and trained checkpoints are not stored directly in this repository.
+The final RF model is:
+
+matlab/v2v_urban_scenario_RF_FINAL.slx
+
+Large RF datasets and trained checkpoints are intentionally not stored directly in this repository.
 
 Current Limitations
-RF-device identification is not reliable enough for hard transmitter authentication.
-Delay-spread regression is not used for safety-critical control.
-RF propagation is scene-conditioned rather than full geometry-based electromagnetic ray tracing.
-NLOS performance still requires validation on a fully independent external or real-world RF dataset.
+RF-device identification is not sufficiently reliable for hard transmitter authentication.
+Delay-spread regression is not used for safety-critical vehicle control.
+RF propagation is scene-conditioned using RF data rather than full geometry-based electromagnetic ray tracing.
+NLOS performance requires further validation on a completely independent or real-world RF dataset.
 Technical Report
 
-The complete technical report is available in:
+The complete project report is available at:
 
 docs/V2V_RF_Adaptive_Control_FINAL.pdf
 
+Technologies
+
+MATLAB · Simulink · Automated Driving Toolbox · Python · PyTorch · ZeroMQ · HDF5 · Deep Learning · V2V · Software-in-the-Loop
 License
 
-This project is licensed under the MIT License.
+This project is released under the MIT License.
