@@ -45,7 +45,7 @@ Vehicle Speed and Gap Response
 
 The final Simulink model combines the physical driving scenario, ego-path tracking, dynamic lead-vehicle selection, RF scene conditioning, live RF inference and adaptive longitudinal control.
 
-Urban Driving Scenario
+## Urban Driving Scenario
 
 The ego vehicle follows a predefined urban route containing intersections, highway sections, roundabouts and multiple traffic actors.
 
@@ -72,7 +72,7 @@ SIL sequence and link status
 
 RF information acts as a supervisory input. Physical gap and TTC-based safety remain active independently of the RF subsystem.
 
-Deep-Learning Performance
+## Deep-Learning Performance
 Metric	Result
 NLOS F1-score	96.69%
 NLOS balanced accuracy	96.81%
@@ -83,7 +83,7 @@ p95 inference latency	2.26 ms
 
 The reported values correspond to evaluation on the finite RF dataset used in the project.
 
-CLEAN vs NLOS Closed-Loop Evaluation
+## CLEAN vs NLOS Closed-Loop Evaluation
 
 CLEAN and NLOS experiments were compared using ego route position (path_s) so that both runs are evaluated at the same physical locations.
 
@@ -98,7 +98,7 @@ The NLOS condition reduced mean RF quality by approximately 0.2615 and increased
 
 The communication-layer change is clearly detected while the physical safety controller keeps the longitudinal response bounded.
 
-RF-Only Validation
+## RF-Only Validation
 
 Before enabling RF-aware vehicle adaptation, the RF pipeline was validated independently.
 
@@ -112,7 +112,7 @@ Mean NLOS inside RF zone         = 0.5941
 
 This confirms that the scene-conditioned RF region produces the intended communication degradation before RF information influences vehicle control.
 
-Demo Video
+## Demo Video
 
 The v1.0 – V2V Final Demonstration GitHub Release contains the integrated final simulation video.
 
@@ -126,7 +126,7 @@ and the Python/PyTorch inference server processing RF requests during the simula
 
 This provides an end-to-end demonstration of the vehicle-control and RF-inference pipeline operating together.
 
-Repository Structure
+## Repository Structure
 .
 ├── matlab/
 │   ├── Simulink vehicle models
@@ -154,7 +154,7 @@ Repository Structure
 └── README.md
 Running the Physical Simulink Demo
 
-Requirements:
+## Requirements:
 
 MATLAB
 Simulink
@@ -177,7 +177,7 @@ open_system('v2v_urban_scenario_PHYSICAL_BASELINE')
 
 Then run the Simulink model.
 
-Full RF Software-in-the-Loop System
+## Full RF Software-in-the-Loop System
 
 The complete RF-aware configuration additionally requires:
 
@@ -196,7 +196,7 @@ matlab/v2v_urban_scenario_RF_FINAL.slx
 
 Large RF datasets and trained checkpoints are intentionally not stored directly in this repository.
 
-Current Limitations
+## Current Limitations
 RF-device identification is not sufficiently reliable for hard transmitter authentication.
 Delay-spread regression is not used for safety-critical vehicle control.
 RF propagation is scene-conditioned using RF data rather than full geometry-based electromagnetic ray tracing.
@@ -207,7 +207,7 @@ The complete project report is available at:
 
 docs/V2V_RF_Adaptive_Control_FINAL.pdf
 
-Technologies
+## Technologies
 
 MATLAB · Simulink · Automated Driving Toolbox · Python · PyTorch · ZeroMQ · HDF5 · Deep Learning · V2V · Software-in-the-Loop
 License
