@@ -75,7 +75,7 @@ RF information acts as a supervisory input. Physical gap and TTC-based safety re
 ## Deep-Learning Performance
 Metric	Result
 NLOS F1-score	96.69%
-NLOS balanced accuracy	96.81%
+NLOS balanced accuracy	93.81%
 NLOS ROC-AUC	99.99%
 SNR MAE	1.83 dB
 Median inference latency	1.85 ms
